@@ -4,7 +4,7 @@ from sqlalchemy import text
 
 from app.database import get_db
 
-router = APIRouter()
+router = APIRouter(prefix="/health", tags=["health"])
 
 
 @router.get("")
