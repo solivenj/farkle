@@ -1,6 +1,6 @@
 from typing import Optional
 
-from sqlalchemy import DateTime, Integer, BigInteger, String, ForeignKey, func
+from sqlalchemy import DateTime, Integer, BigInteger, String, ForeignKey, Boolean, func
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.dialects.postgresql import UUID, ARRAY, ENUM
@@ -57,6 +57,7 @@ class Room(Base):
     target_score: Mapped[int] = mapped_column(Integer, server_default="10000")
     max_players: Mapped[int] = mapped_column(Integer, server_default="4")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    riding_enabled: Mapped[bool] = mapped_column(server_default="false")
 
 class Game(Base):
     __tablename__ = "games"
@@ -67,6 +68,7 @@ class Game(Base):
     winner_id: Mapped[Optional[uuid.UUID]] = mapped_column(ForeignKey("users.id"), nullable=True)
     started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     finished_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+    riding_enabled: Mapped[bool] = mapped_column(server_default="false")
 
 class GamePlayer(Base):
     __tablename__ = "game_players"
@@ -89,6 +91,8 @@ class Turn(Base):
     is_farkle: Mapped[bool] = mapped_column(server_default="false")
     started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     ended_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+    inherited_score: Mapped[int] = mapped_column(Integer, server_default="0")
+    inherited_dice: Mapped[list[int]] = mapped_column(ARRAY(Integer), server_default="{}")
 
 class Roll(Base):
     __tablename__ = "rolls"
