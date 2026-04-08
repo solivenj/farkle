@@ -1,6 +1,8 @@
 from uuid import UUID
+from backend.app.models import Game
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
+from datetime import datetime, timezone
 
 from app.dependencies import get_db
 from app.schemas.game import GameCreate, GameResponse, GameState
@@ -13,7 +15,17 @@ async def create_game(
     body: GameCreate,
     db: AsyncSession = Depends(get_db),
 ):
-    raise NotImplementedError
+    room_id = body.room_id
+
+    # create the game
+    game = Game()
+    db.add(game)
+
+
+    await db.commit()
+    await db.refresh(game)
+  
+    return game      
 
 @router.get("/{game_id}", response_model=GameState) # GameState
 async def get_game( 

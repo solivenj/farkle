@@ -8,6 +8,7 @@ from datetime import datetime
 from app.schemas.player import PlayerResponse
 
 class GameStatus(str, Enum):
+    waiting = "waiting"
     in_progress = "in_progress"
     finished = "finished"
     abandoned = "abandoned"

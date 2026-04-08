@@ -13,7 +13,7 @@ from app.database import Base
 # ENUMS
 friendship_status = ENUM("pending", "accepted", "blocked", name="friendship_status")
 room_status = ENUM("waiting", "in_progress", "finished", name="room_status")
-game_status = ENUM("in_progress", "finished", "abandoned", name="game_status")
+game_status = ENUM("waiting", "in_progress", "finished", "abandoned", name="game_status")
 
 # Users table
 class User(Base):
